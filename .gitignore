@@ -1,0 +1,5 @@
+dict.h
+dict_clnt.c
+dict_server
+dict_svc.c
+rdict

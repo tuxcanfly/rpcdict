@@ -1,9 +1,7 @@
 /* dict.x: Remote dictionary */
 program DICTPROG {
-   version INSERTVERS {
+   version DICTVERS {
      int INSERT(string) = 1;
-   } = 1;
-   version LOOKUPVERS {
-     string LOOKUP(string) = 1;
+     string LOOKUP(string) = 2;
    } = 1;
 } = 0x20000001;

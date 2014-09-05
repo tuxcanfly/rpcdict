@@ -25,7 +25,7 @@ int main(int argc, char **argv)
         scanf("%s", word);
 
         if (!strcmp(proc, insert)) {
-            clnt = clnt_create(server, DICTPROG, INSERTVERS, "tcp"); 
+            clnt = clnt_create(server, DICTPROG, DICTVERS, "tcp"); 
 
             if (clnt == (CLIENT *)NULL) {
                 clnt_pcreateerror(server);
