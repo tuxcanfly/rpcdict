@@ -1,12 +1,12 @@
-rprintmsg: msg_clnt.c
-	cc rprintmsg.c msg_clnt.c -o rprintmsg -lnsl
+rdict: rdict.c dict_clnt.c
+	cc rdict.c dict_clnt.c -o rdict -lnsl
 
-msg_server: msg_svc.c
-	cc msg_proc.c msg_svc.c -o msg_server -lnsl
+dict_server: dict_proc.c dict_svc.c
+	cc dict_proc.c dict_svc.c -o dict_server -lnsl
 
 clean:
-	rm -rf rprintmsg msg_server
+	rm -rf dict_server rdict
 
-all: rprintmsg msg_server
+all: dict_server rdict
 
 .PHONY: all clean

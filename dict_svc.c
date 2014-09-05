@@ -3,7 +3,7 @@
  * It was generated using rpcgen.
  */
 
-#include "msg.h"
+#include "dict.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <rpc/pmap_clnt.h>
@@ -17,10 +17,10 @@
 #endif
 
 static void
-messageprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
+dictprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
-		char *printmessage_1_arg;
+		char *insert_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -31,10 +31,10 @@ messageprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		(void) svc_sendreply (transp, (xdrproc_t) xdr_void, (char *)NULL);
 		return;
 
-	case PRINTMESSAGE:
+	case INSERT:
 		_xdr_argument = (xdrproc_t) xdr_wrapstring;
 		_xdr_result = (xdrproc_t) xdr_int;
-		local = (char *(*)(char *, struct svc_req *)) printmessage_1_svc;
+		local = (char *(*)(char *, struct svc_req *)) insert_1_svc;
 		break;
 
 	default:
@@ -62,15 +62,20 @@ main (int argc, char **argv)
 {
 	register SVCXPRT *transp;
 
-	pmap_unset (MESSAGEPROG, PRINTMESSAGEVERS);
+	pmap_unset (DICTPROG, INSERTVERS);
+	pmap_unset (DICTPROG, LOOKUPVERS);
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
 		fprintf (stderr, "%s", "cannot create udp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, MESSAGEPROG, PRINTMESSAGEVERS, messageprog_1, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (MESSAGEPROG, PRINTMESSAGEVERS, udp).");
+	if (!svc_register(transp, DICTPROG, INSERTVERS, dictprog_1, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (DICTPROG, INSERTVERS, udp).");
+		exit(1);
+	}
+	if (!svc_register(transp, DICTPROG, LOOKUPVERS, dictprog_1, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (DICTPROG, LOOKUPVERS, udp).");
 		exit(1);
 	}
 
@@ -79,8 +84,12 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s", "cannot create tcp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, MESSAGEPROG, PRINTMESSAGEVERS, messageprog_1, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (MESSAGEPROG, PRINTMESSAGEVERS, tcp).");
+	if (!svc_register(transp, DICTPROG, INSERTVERS, dictprog_1, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (DICTPROG, INSERTVERS, tcp).");
+		exit(1);
+	}
+	if (!svc_register(transp, DICTPROG, LOOKUPVERS, dictprog_1, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (DICTPROG, LOOKUPVERS, tcp).");
 		exit(1);
 	}
 
