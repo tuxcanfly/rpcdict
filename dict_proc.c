@@ -53,8 +53,8 @@ extern  char ** lookup_1_svc(char *word, struct svc_req *req)
     char **meaning = malloc(sizeof(char) * 128);
     hashtable_t *hashtable = ht_init();
     *meaning = ht_get(hashtable, word);
-    if (meaning == NULL) {
-        return NULL;
+    if (*meaning == NULL) {
+        *meaning = "";
     }
     return meaning;
 }

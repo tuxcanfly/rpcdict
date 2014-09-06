@@ -58,13 +58,10 @@ int main(int argc, char **argv)
                 return 1;
             }
 
-            if (*result == 1) {
-                printf("sucessfully added '%s' to the dictionary\n", word);
-            }
-
             if (*result == 0) {
                 fprintf(stderr, "could not add '%s' to the dictionary\n", word);
-                return 1;
+            } else if (*result == 1) {
+                printf("sucessfully added '%s' to the dictionary\n", word);
             }
         } else if (!strcmp(proc, lookup)) {
             // call LOOKUP procedure
@@ -73,11 +70,11 @@ int main(int argc, char **argv)
 
             meaning = *lookup_1(word, clnt);
 
-            if (meaning == NULL) {
+            if (!strcmp(meaning, "")) {
                 fprintf(stderr, "could not get meaning of '%s' from the dictionary\n", word);
-                return 1;
+            } else {
+                printf("sucessfully got meaning of '%s' from the dictionary: %s\n", word, meaning);
             }
-            printf("sucessfully got meaning of '%s' from the dictionary: %s\n", word, meaning);
         } else {
             // unknown procedure
             printf("Invalid procedure, please enter INSERT or LOOKUP\n");
