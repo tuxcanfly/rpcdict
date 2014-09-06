@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     char *server;
     char *proc = malloc(sizeof(char) * 128);
     char *word = malloc(sizeof(char) * 128);
-    char *meaning = malloc(sizeof(char) * 128);
+    char *meaning;
     char *insert = "INSERT";
     char *lookup = "LOOKUP";
 

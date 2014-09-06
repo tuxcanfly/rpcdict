@@ -14,7 +14,7 @@ int * insert_1_svc(char **word, struct svc_req *req)
 
 extern  char ** lookup_1_svc(char **word, struct svc_req *req)
 {
-    static char *meaning[100];
-    strcpy(*meaning, "");
+    char **meaning = malloc(sizeof(char) * 128);
+    *meaning = "hello world";
     return meaning;
 }
