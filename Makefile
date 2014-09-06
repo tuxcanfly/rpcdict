@@ -8,7 +8,7 @@ dict_server: dict_proc.c dict_svc.c dict_xdr.c
 	cc dict_proc.c dict_svc.c dict_xdr.c -o dict_server -lnsl
 
 clean:
-	rm -rf dict_server rdict dict.h dict_clnt.c dict_svc.c
+	rm -rf dict_server rdict dict.h dict_clnt.c dict_svc.c dict_xdr.c
 
 all: dict_server rdict
 

@@ -7,9 +7,9 @@
 
 extern  int * insert_1_svc(char *word, char *meaning, struct svc_req *req)
 {
-    static int result; /* must be static! */
+    static int result;
     result = 100;
-    return (&result);
+    return &result;
 }
 
 extern  char ** lookup_1_svc(char *word, struct svc_req *req)
