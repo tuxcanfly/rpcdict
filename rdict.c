@@ -61,8 +61,10 @@ int main(int argc, char **argv)
         if (!strcmp(proc, insert)) {
             // call INSERT procedure
             printf("Enter word: ");
+            // skip newline of previous input
             scanf("\n");
             fgets(word, MAX_WORD_SIZE, stdin);
+            // remove trailing newline
             strtok(word, "\n");
 
             printf("Enter meaning: ");
