@@ -56,15 +56,19 @@ int main(int argc, char **argv)
      */
     while (1) {
         printf("Enter procedure (INSERT, LOOKUP): ");
-        scanf("%s", proc);
+        fgets(proc, MAX_PROC_SIZE, stdin);
 
         if (!strcmp(proc, insert)) {
             // call INSERT procedure
             printf("Enter word: ");
-            scanf("%s", word);
+            scanf("\n");
+            fgets(word, MAX_WORD_SIZE, stdin);
+            strtok(word, "\n");
 
             printf("Enter meaning: ");
-            scanf("%s", meaning);
+            scanf("\n");
+            fgets(meaning, MAX_MEANING_SIZE, stdin);
+            strtok(meaning, "\n");
 
             result = insert_1(word, meaning, clnt);
             if (result == (int *)NULL) {
@@ -83,7 +87,9 @@ int main(int argc, char **argv)
         } else if (!strcmp(proc, lookup)) {
             // call LOOKUP procedure
             printf("Enter word: ");
-            scanf("%s", word);
+            scanf("\n");
+            fgets(word, MAX_WORD_SIZE, stdin);
+            strtok(word, "\n");
 
             meaning = *lookup_1(word, clnt);
 
