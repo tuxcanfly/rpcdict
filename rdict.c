@@ -6,21 +6,21 @@
 #include <stdio.h>
 #include "dict.h"
 
+#define MAX_PROC_SIZE sizeof(char)*7
+#define MAX_WORD_SIZE sizeof(char)*256
+#define MAX_MEANING_SIZE sizeof(char)*65536
+
 int main(int argc, char **argv)
 {
     CLIENT *clnt;
     int *result;
     char *server;
 
-    /*
-     * initialize variables for reading procedure, word, meaning
-     * and values to compare procedure name against
-     */
-    char *proc = malloc(sizeof(char) * 128);
-    char *word = malloc(sizeof(char) * 128);
-    char *meaning = malloc(sizeof(char) * 128);
-    char *insert = "INSERT";
-    char *lookup = "LOOKUP";
+    if (argc == 1) {
+        printf("Missing RPC server\n");
+        printf("e.g: ./rdict localhost\n");
+        return 1;
+    }
 
     /*
      * first argument is the RPC server to connect to
@@ -30,6 +30,20 @@ int main(int argc, char **argv)
     clnt = clnt_create(server, DICTPROG, DICTVERS, "tcp"); 
     if (clnt == (CLIENT *)NULL) {
         clnt_pcreateerror(server);
+        return 1;
+    }
+
+    /*
+     * initialize variables for reading procedure, word, meaning
+     * and values to compare procedure name against
+     */
+    char *proc = malloc(MAX_PROC_SIZE);
+    char *word = malloc(MAX_WORD_SIZE);
+    char *meaning = malloc(MAX_MEANING_SIZE);
+    char *insert = "INSERT";
+    char *lookup = "LOOKUP";
+    if (proc == NULL || word == NULL || meaning == NULL) {
+        printf("Error allocating memory\n");
         return 1;
     }
 
@@ -55,6 +69,9 @@ int main(int argc, char **argv)
             result = insert_1(word, meaning, clnt);
             if (result == (int *)NULL) {
                 clnt_perror(clnt, server);
+                free(proc);
+                free(word);
+                free(meaning);
                 return 1;
             }
 
@@ -80,6 +97,9 @@ int main(int argc, char **argv)
             printf("Invalid procedure, please enter INSERT or LOOKUP\n");
         }
     }
+    free(proc);
+    free(word);
+    free(meaning);
     clnt_destroy( clnt );
     return 0;
 }
